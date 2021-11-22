@@ -1,0 +1,51 @@
+#!/bin/bash -x
+
+# Table of contents Jupyter Lab Extension
+echo "Table of contents Jupyter Lab extension install"
+jupyter labextension install @jupyterlab/toc --no-build 
+
+# Building everything up
+# echo "Building everything up (jupyter lab build)"
+# jupyter lab build 
+
+###############################################################
+#             moving to a local installation folder           #
+###############################################################
+
+mkdir ~/.binder
+cd ~/.binder
+
+###############################################################
+#             vscode/code-server installation                 #
+###############################################################
+
+export CODE_SERVER_VERSION=3.10.2
+echo "export CODE_SERVER_VERSION=${CODE_SERVER_VERSION}" >> ~/.bashrc
+echo "export CODE_SERVER_VERSION=${CODE_SERVER_VERSION}" >> ~/.profile
+
+export CODE_SERVER_HOME=$(pwd)/code-server-${CODE_SERVER_VERSION}
+echo "export CODE_SERVER_HOME=${CODE_SERVER_HOME}"       >> ~/.bashrc
+echo "export CODE_SERVER_HOME=${CODE_SERVER_HOME}"       >> ~/.profile
+
+# Download and install VS Code server
+curl -sLo- https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server-${CODE_SERVER_VERSION}-linux-amd64.tar.gz | tar zx
+mv code-server-* code-server-${CODE_SERVER_VERSION}
+
+# adding bin/ to $path
+echo "export PATH=\$PATH:\$CODE_SERVER_HOME/bin"   >> ~/.bashrc
+echo "export PATH=\$PATH:\$CODE_SERVER_HOME/bin"   >> ~/.profile
+
+###############################################################
+#             vscode/code-server extensions                   #
+###############################################################
+
+${CODE_SERVER_HOME}/bin/code-server --install-extension ms-python.python
+${CODE_SERVER_HOME}/bin/code-server --install-extension redhat.java
+
+###############################################################
+#                        JAVA_HOME                            #
+###############################################################
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/
+echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/" >> ~/.bashrc
+echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/" >> ~/.profile

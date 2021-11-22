@@ -1,0 +1,7 @@
+jupyter_server==1.4.1
+# jupyter/jupyterlab extensions
+jupyter-server-proxy
+
+#vscode
+numpy
+jupyter-vscode-proxy

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Allianz CA
+export ALLIANZ_CA_BUNDLE=./.binder/ca/allianz-ca-bundle.pem
+
+# Make git trust Allianz CA 
+git config --global http.sslCAInfo $PWD/$ALLIANZ_CA_BUNDLE
+
+exec "$@"
